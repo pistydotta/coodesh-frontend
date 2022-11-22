@@ -5,7 +5,7 @@
         <b-img
           thumbnail
           fluid
-          src="https://spaceflightnow.com/wp-content/uploads/2018/10/ccp-countdown-header-326x245.jpg"
+          :src="article.imageUrl"
           alt=""
         />
       </b-col>
@@ -14,25 +14,25 @@
         <div>
           <b-row>
             <b-col>
-              <h5 class="article-title">Titulo</h5>
+              <h5 class="article-title">{{article.title}}</h5>
             </b-col>
           </b-row>
 
           <b-row class="d-flex justify-content-between">
             <b-col class="d-flex justify-content-start">
-             <span class="small">dd/mm/yyyy</span>
+             <span class="small">{{moment(article.publishedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD/MM/YYYY')}}</span>
             </b-col>
 
             <b-col class="d-flex justify-content-end">
                 <div class="news-site-class">
-                    <a href="" class="small px-3 news-site-href">newsSite</a>
+                    <a :href="article.url" class="small px-3 news-site-href">{{article.newsSite}}</a>
                 </div>
             </b-col>
           </b-row>
 
           <b-row>
             <b-col class="d-flex">
-              <p>content</p>
+              <p>{{article.summary}}</p>
             </b-col>
           </b-row>
         </div>
@@ -48,7 +48,18 @@
 </template>
 
 <script>
-export default {};
+import moment from 'moment'
+export default {
+  props: {
+    article: {}
+  },
+
+  data() {
+    return {
+      moment
+    }
+  }
+};
 </script>
 
 <style>

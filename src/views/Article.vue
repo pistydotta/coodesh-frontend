@@ -5,9 +5,9 @@
       <b-col class="d-flex justify-content-end">
         <div class="mr-3">
           <b-input-group>
-            <b-form-input placeholder="Search"></b-form-input>
+            <b-form-input v-model="title" placeholder="Search"></b-form-input>
             <b-input-group-append>
-              <b-button @click="teste">
+              <b-button @click="searchArticles">
                 <fa-icon icon="search"></fa-icon>
               </b-button>
             </b-input-group-append>
@@ -15,6 +15,7 @@
         </div>
         <div>
           <b-form-select
+            @change="getSortedArticles"
             v-model="sortBy"
             :options="[
               { text: 'Mais antigas', value: 'oldest' },
@@ -45,11 +46,15 @@
     <hr class="border-bottom-custom" />
 
     <template v-for="(article, idx) in articles">
-      <ImageLeft v-if="idx % 2 == 0" :key="article._id" />
-      <ImageRight v-else :key="article._id" />
+      <ImageLeft :article="article" v-if="idx % 2 == 0" :key="article._id" />
+      <ImageRight :article="article" v-else :key="article._id" />
     </template>
     <div class="m-4">
-      <b-button class="btn btn-outline-info outline-custom">Carregar mais</b-button>
+      <b-button
+        @click="loadArticles"
+        class="btn btn-outline-info outline-custom"
+        >Carregar mais</b-button
+      >
     </div>
   </div>
 </template>
@@ -59,14 +64,9 @@ export default {
   data() {
     return {
       sortBy: "",
-      articles: [
-        { _id: "12312fjasoifh", title: "Titulo 1", summary: "Resumo 1" },
-        {
-          _id: "OH9012HF9H",
-          title: "Titulo 13",
-          summary: "Resumo 13",
-        },
-      ],
+      loadIteration: 0,
+      title: "",
+      filteringByTitle: false,
     };
   },
 
@@ -75,13 +75,54 @@ export default {
     ImageRight: () => import("@/components/ArticleRightImage.vue"),
   },
 
-  methods: {
-    teste() {
-      console.log(" testando carai ");
+  computed: {
+    articles() {
+      return this.$store.state.articles;
     },
   },
 
-  mounted() {},
+  methods: {
+    getSortedArticles() {
+      this.loadIteration = 0;
+      if (this.filteringByTitle) {
+        this.$store.dispatch("searchArticles", {
+          loadIteration: this.loadIteration,
+          title: this.title,
+          sortBy: this.sortBy
+        });
+      } else {
+        this.$store.dispatch("getArticles", {loadIteration: this.loadIteration, sortBy: this.sortBy});
+      }
+    },
+
+    async loadArticles() {
+      this.loadIteration = this.loadIteration + 1;
+      if (this.filteringByTitle) {
+        this.$store.dispatch("searchArticles", {
+          loadIteration: this.loadIteration,
+          title: this.title,
+          sortBy: this.sortBy
+        });
+      } else {
+        this.$store.dispatch("getArticles", {loadIteration: this.loadIteration, sortBy: this.sortBy});
+      }
+    },
+
+    async searchArticles() {
+      this.filteringByTitle = true;
+      this.loadIteration = 0;
+      this.$store.dispatch("searchArticles", {
+        loadIteration: this.loadIteration,
+        title: this.title,
+        sortBy: this.sortBy
+      });
+    },
+
+  },
+
+  mounted() {
+    this.$store.dispatch("getArticles", {loadIteration: this.loadIteration, sortBy: this.sortBy});
+  },
 };
 </script>
 
@@ -125,7 +166,7 @@ export default {
 }
 
 .outline-custom:hover {
-    color: white !important;
-    background-color: #665af5 !important;
+  color: white !important;
+  background-color: #665af5 !important;
 }
 </style>
