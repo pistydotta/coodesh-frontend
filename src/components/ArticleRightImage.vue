@@ -13,7 +13,7 @@
 
           <b-row class="d-flex justify-content-between">
             <b-col class="d-flex justify-content-start">
-             <span class="small">{{moment(article.publishedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD/MM/YYYY')}}</span>
+             <span class="small">{{moment(article.updatedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD/MM/YYYY')}}</span>
             </b-col>
 
             <b-col class="d-flex justify-content-end">
@@ -32,7 +32,7 @@
 
         <b-row class="">
           <b-col class="d-flex justify-content-start">
-            <b-button>Ver Mais</b-button>
+            <b-button @click="redirect">Ver Mais</b-button>
           </b-col>
         </b-row>
       </b-col>
@@ -58,6 +58,16 @@ export default {
   data() {
     return {
       moment
+    }
+  },
+  methods: {
+    redirect() {
+      this.$router.push({
+        name: 'Preview',
+        params: {
+          id: this.article.externalId
+        }
+      })
     }
   }
 };

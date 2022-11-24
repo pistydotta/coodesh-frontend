@@ -20,7 +20,7 @@
 
           <b-row class="d-flex justify-content-between">
             <b-col class="d-flex justify-content-start">
-             <span class="small">{{moment(article.publishedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD/MM/YYYY')}}</span>
+             <span class="small">{{moment(article.updatedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD/MM/YYYY')}}</span>
             </b-col>
 
             <b-col class="d-flex justify-content-end">
