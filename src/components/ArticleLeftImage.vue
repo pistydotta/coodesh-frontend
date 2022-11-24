@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row align-h="center" class="py-4">
-      <b-col cols="4">
+      <b-col xs="12" sm="5" md="5" lg="4">
         <b-img
           thumbnail
           fluid
@@ -10,7 +10,7 @@
         />
       </b-col>
 
-      <b-col cols="5" class="d-flex flex-column justify-content-between">
+      <b-col xs="12" sm="6" md="6" lg="5" class="d-flex flex-column justify-content-between">
         <div>
           <b-row>
             <b-col>

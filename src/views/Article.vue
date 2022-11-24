@@ -2,7 +2,7 @@
   <div>
     <b-row class="py-3 mr-2">
       <b-col></b-col>
-      <b-col class="d-flex justify-content-end">
+      <b-col md="12" class="d-flex justify-content-end">
         <div class="mr-3">
           <b-input-group>
             <b-form-input v-model="title" placeholder="Search"></b-form-input>
