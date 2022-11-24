@@ -52,8 +52,14 @@
     <div class="m-4">
       <b-button
         @click="loadArticles"
-        class="btn btn-outline-info outline-custom"
+        class="btn btn-outline-info outline-custom mr-4"
         >Carregar mais</b-button
+      >
+
+      <b-button
+        @click="$router.push({name: 'Create'})"
+        class="btn btn-outline-info outline-custom"
+        >Criar Artigo</b-button
       >
     </div>
   </div>

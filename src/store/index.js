@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Http from 'Http'
+import router from '../router'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    articles: []
+    articles: [],
+    article: {}
   },
 
   actions: {
@@ -37,6 +39,40 @@ export default new Vuex.Store({
 
     },
 
+    getArticle: async ({commit}, id) => {
+      console.log(id)
+      const response = await Http().get(`/articles/${id}`)
+      console.log(response.data)
+      await commit('setArticle', response.data.article)
+    },
+
+    createArticle: async ({dispatch}, body) => {
+      const response = await Http().post(`/articles`, body)
+      if (response.data.statusCode == 201) {
+        dispatch('getArticles')
+        router.push({name: 'Article'})
+      } 
+      return response.data
+    },
+
+    editArticle: async ({dispatch}, body) => {
+      const response = await Http().put(`/articles/${body.externalId}`, body)
+      if (response.data.statusCode == 200) {
+        dispatch('getArticles')
+        router.push({name: 'Article'})
+      } 
+      return response.data
+    },
+
+    deleteArticle: async ({dispatch}, id) => {
+      const response = await Http().delete(`/articles/${id}`)
+      if (response.data.statusCode == 200) {
+        dispatch('getArticles')
+        router.push({name: 'Article'})
+      } 
+      return response.data
+    },
+
     clearArticles: async ({commit}) => {
       commit('clearArticles')
     }
@@ -47,6 +83,11 @@ export default new Vuex.Store({
     setArticles(state, articles) {
       state.articles = articles
     },
+
+    setArticle(state, article) {
+      state.article = article
+    },
+
 
     clearArticles(state) {
       state.articles = []

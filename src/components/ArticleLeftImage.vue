@@ -39,7 +39,7 @@
 
         <b-row class="">
           <b-col class="d-flex justify-content-start">
-            <b-button>Ver Mais</b-button>
+            <b-button @click="redirect">Ver Mais</b-button>
           </b-col>
         </b-row>
       </b-col>
@@ -57,6 +57,17 @@ export default {
   data() {
     return {
       moment
+    }
+  },
+
+  methods: {
+    redirect() {
+      this.$router.push({
+        name: 'Preview',
+        params: {
+          id: this.article.externalId
+        }
+      })
     }
   }
 };

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import Article from '../views/Article.vue'
-
+import Preview from '../views/Preview.vue'
+import Create from '../views/Create.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -11,6 +11,17 @@ const routes = [
     name: 'Article',
     component: Article
   },
+  {
+    path: '/article/create',
+    name: 'Create',
+    component: Create
+  },
+  {
+    path: '/article/:id',
+    name: 'Preview',
+    component: Preview
+  },
+  
   {
     path: '/about',
     name: 'about',
